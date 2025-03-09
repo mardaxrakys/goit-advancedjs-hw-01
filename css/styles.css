@@ -1,59 +1,32 @@
-/* Загальні стилі */
-button {
-  cursor: pointer;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* Контейнер */
-.container {
-  max-width: 1128px;
-  padding: 0 15px;
-  margin: 0 auto;
-}
-
-/* Галерея */
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
   justify-content: center;
 }
 
 .gallery-item {
-  flex-basis: calc((100% - 48px) / 3);
-  transition: transform 0.3s;
+  flex-basis: calc(33.333% - 10px);
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.gallery-item:hover,
-.gallery-item:focus {
+.gallery-link {
+  display: block;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.gallery-image:hover {
   transform: scale(1.05);
 }
 
-/* Модальне вікно */
-.basicLightbox {
-  background: rgba(0, 0, 0, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.basicLightbox__placeholder img {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-}

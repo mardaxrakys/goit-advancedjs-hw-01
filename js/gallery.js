@@ -1,3 +1,6 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+
 const images = [
   {
     preview:
@@ -64,87 +67,20 @@ const images = [
   },
 ];
 
-const galleryContainer = document.querySelector('.gallery');
+const gallery = document.querySelector('.gallery');
 
-// Генеруємо розмітку галереї
-const galleryMarkup = images
-  .map(({ preview, original, description }) => {
-    return `
+gallery.innerHTML = images
+  .map(
+    ({ preview, original, description }) => `
       <li class="gallery-item">
         <a class="gallery-link" href="${original}">
-          <img
-            class="gallery-image"
-            src="${preview}"
-            data-source="${original}"
-            alt="${description}"
-          />
+          <img class="gallery-image" src="${preview}" alt="${description}" />
         </a>
-      </li>
-    `;
-  })
+      </li>`
+  )
   .join('');
 
-galleryContainer.innerHTML = galleryMarkup;
-
-// Масив посилань на великі зображення
-const imageUrls = images.map((image) => image.original);
-let currentIndex = 0;
-let instance = null;
-
-// Функція для відкриття модального вікна
-const openModal = (imageUrl) => {
-  currentIndex = imageUrls.indexOf(imageUrl); // Отримуємо індекс відкритого зображення
-
-  instance = basicLightbox.create(
-    `
-    <img src="${imageUrl}" width="800" height="600">
-  `,
-    {
-      onShow: () => document.addEventListener('keydown', handleKeyPress),
-      onClose: () => document.removeEventListener('keydown', handleKeyPress),
-    }
-  );
-
-  instance.show();
-};
-
-// Функція для обробки клавіш
-const handleKeyPress = (event) => {
-  if (event.key === 'Escape') {
-    instance.close();
-  } else if (event.key === 'ArrowRight') {
-    showNextImage();
-  } else if (event.key === 'ArrowLeft') {
-    showPrevImage();
-  }
-};
-
-// Функція для показу наступного зображення
-const showNextImage = () => {
-  currentIndex = (currentIndex + 1) % imageUrls.length; // Перехід до наступного (циклічно)
-  updateModalImage();
-};
-
-// Функція для показу попереднього зображення
-const showPrevImage = () => {
-  currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length; // Перехід назад (циклічно)
-  updateModalImage();
-};
-
-// Оновлення зображення у відкритому модальному вікні
-const updateModalImage = () => {
-  const newImageUrl = imageUrls[currentIndex];
-  const modalImage = instance.element().querySelector('img');
-  modalImage.src = newImageUrl;
-};
-
-// Обробник кліків на галереї (делегування подій)
-galleryContainer.addEventListener('click', (event) => {
-  event.preventDefault(); // Забороняємо завантаження зображення
-
-  const clickedImage = event.target;
-  if (clickedImage.nodeName !== 'IMG') return;
-
-  const largeImageUrl = clickedImage.dataset.source; // Отримуємо посилання на велике зображення
-  openModal(largeImageUrl);
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
 });
