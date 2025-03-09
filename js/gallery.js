@@ -1,6 +1,8 @@
+// Імпортуємо бібліотеку SimpleLightbox і її стилі
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+// Масив об'єктів зображень
 const images = [
   {
     preview:
@@ -67,8 +69,10 @@ const images = [
   },
 ];
 
+// Знаходимо список галереї
 const gallery = document.querySelector('.gallery');
 
+// Створюємо HTML-розмітку для кожного зображення
 gallery.innerHTML = images
   .map(
     ({ preview, original, description }) => `
@@ -80,7 +84,8 @@ gallery.innerHTML = images
   )
   .join('');
 
+// Ініціалізуємо SimpleLightbox для всіх посилань у галереї
 const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
+  captionsData: 'alt', // Брати підпис із атрибута alt
+  captionDelay: 250, // Затримка появи підпису
 });
