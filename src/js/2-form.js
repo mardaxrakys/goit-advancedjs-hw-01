@@ -1,40 +1,40 @@
+// 1. Оголошуємо об'єкт для збереження введених даних
+const formData = { email: '', message: '' };
 const form = document.querySelector('.feedback-form');
-const LOCAL_STORAGE_KEY = 'feedback-form-state';
+const STORAGE_KEY = 'feedback-form-state';
 
-// Об'єкт для зберігання даних форми
-let formData = {
-  email: '',
-  message: '',
-};
-
-// Перевіряємо, чи є збережені дані
-const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+// 2. Перевіряємо, чи є збережені дані у локальному сховищі
+const savedData = localStorage.getItem(STORAGE_KEY);
 if (savedData) {
-  formData = JSON.parse(savedData);
-  form.elements.email.value = formData.email || '';
-  form.elements.message.value = formData.message || '';
+  const parsedData = JSON.parse(savedData);
+  formData.email = parsedData.email || '';
+  formData.message = parsedData.message || '';
+  form.elements.email.value = formData.email;
+  form.elements.message.value = formData.message;
 }
 
-// Слухаємо події введення
+// 3. Функція для оновлення локального сховища при зміні введених даних
 form.addEventListener('input', event => {
-  formData[event.target.name] = event.target.value.trim();
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(formData));
+  formData[event.target.name] = event.target.value;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 });
 
-// Слухаємо подію відправки форми
+// 4. Обробник події відправлення форми
 form.addEventListener('submit', event => {
-  event.preventDefault();
+  event.preventDefault(); // Забороняємо перезавантаження сторінки
 
-  // Перевірка, чи заповнені всі поля
+  // 5. Перевіряємо, чи заповнені всі поля форми
   if (!formData.email || !formData.message) {
-    alert('Будь ласка, заповніть всі поля!');
+    alert('Fill please all fields');
     return;
   }
 
-  console.log('Відправлені дані:', formData);
+  // 6. Виводимо в консоль об'єкт з актуальними даними
+  console.log('Form Data Submitted:', formData);
 
-  // Очищуємо локальне сховище та форму
-  localStorage.removeItem(LOCAL_STORAGE_KEY);
-  formData = { email: '', message: '' };
+  // 7. Очищаємо локальне сховище, об'єкт formData і саму форму
+  localStorage.removeItem(STORAGE_KEY);
+  formData.email = '';
+  formData.message = '';
   form.reset();
 });
