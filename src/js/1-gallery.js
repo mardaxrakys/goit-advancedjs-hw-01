@@ -89,3 +89,4 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt', // Брати підпис із атрибута alt
   captionDelay: 250, // Затримка появи підпису
 });
+
